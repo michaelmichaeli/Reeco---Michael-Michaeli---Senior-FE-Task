@@ -232,6 +232,7 @@ If you like this project, please give it a star! ⭐
 ---
 
 ## **Next Steps**
-- Replace placeholders for images and GIFs.
 - Include a live demo link for instant hands-on experience.  
-Let me know if you need any further refinements! 🚀
+
+
+### Let me know if you need any further refinements! 🚀
