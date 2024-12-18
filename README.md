@@ -39,7 +39,7 @@ Make sure you have the following installed:
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/my-slider-component.git
+git clone https://github.com/Reeco---Michael-Michaeli---Senior-FE-Task/my-slider-component.git
 cd my-slider-component
 ```
 
