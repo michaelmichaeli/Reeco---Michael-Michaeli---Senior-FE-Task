@@ -1,10 +1,4 @@
-import React, {
-	useRef,
-	useState,
-	useCallback,
-	useLayoutEffect,
-	useEffect,
-} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { SliderContainer, SliderWrapper } from "./Slider.styles";
 import Arrow from "../Arrows/Arrows";
 
