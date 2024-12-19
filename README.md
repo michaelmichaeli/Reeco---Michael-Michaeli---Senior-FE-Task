@@ -1,6 +1,6 @@
 # 🚀 My Slider Component
 
-![Slider Showcase](https://via.placeholder.com/1200x400?text=Slider+Component+Showcase)
+![image](https://github.com/user-attachments/assets/241b1d84-f12e-482e-bd47-4f7cf25bf443)
 
 A **high-performance**, fully customizable, and responsive slider component built with **React, TypeScript, and Styled-Components**. Designed for **ease of use**, flexibility, and smooth animations, this slider is perfect for modern web applications.
 
@@ -22,7 +22,7 @@ A **high-performance**, fully customizable, and responsive slider component buil
 
 ### Slider in Action
 
-![Slider Demo GIF](https://via.placeholder.com/600x300?text=Slider+Demo)
+![ezgif-1-4345ada544](https://github.com/user-attachments/assets/c4a6bcc6-c9be-41bd-a7fa-ab8288cbff50)
 
 ---
 
