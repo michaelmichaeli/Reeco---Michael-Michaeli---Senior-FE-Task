@@ -59,36 +59,24 @@ Here’s how to integrate and use the slider in your project.
 
 Example: Product Card Slider
 ```tsx
-import React from 'react';
-import Slider from './components/Slider/Slider';
-import ProductCard from './components/ProductCard/ProductCard';
-
 const products = [
   { name: 'Apple', description: 'Fresh red apples', image: 'apple.jpg' },
   { name: 'Banana', description: 'Ripe bananas', image: 'banana.jpg' },
   { name: 'Orange', description: 'Citrus fruit', image: 'orange.jpg' },
 ];
 
-const App: React.FC = () => {
-  return (
-    <Slider
-      items={products}
-      renderItem={(item) => <ProductCard item={item} />}
-      orientation="horizontal"
-      translateInPixels={250}
-      gap={30}
-    />
-  );
-};
+<Slider
+  orientation="horizontal"
+  translateInPixels={250}
+  gap={30}
+>
+  {products.map((item) => <ProductCard item={item} />)}
+</Slider>
 
-export default App;
 ```
 
 Example: Chip Slider
 ```tsx
-import Slider from './components/Slider/Slider';
-import Chip from './components/Chip/Chip';
-
 const categories = [
   { name: 'Fresh Produce' },
   { name: 'Pantry' },
@@ -96,12 +84,12 @@ const categories = [
 ];
 
 <Slider
-  items={categories}
-  renderItem={(item) => <Chip label={item.name} />}
   orientation="vertical"
   translateInPixels={100}
   gap={15}
-/>;
+>
+  {products.map((item) => <ProductCard item={item} />)}
+</Slider>
 ```
 
 ## 📂 Project Structure
