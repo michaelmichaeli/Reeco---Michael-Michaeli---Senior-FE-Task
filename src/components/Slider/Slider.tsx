@@ -1,31 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
-import { SliderContainer, SliderWrapper, SliderItem } from "./Slider.styles";
+import { SliderContainer, SliderWrapper } from "./Slider.styles";
 import Arrow from "../Arrows/Arrows";
 
-interface SliderProps<T> {
-	items: T[];
-	renderItem: (item: T, index: number) => React.ReactNode;
+interface SliderProps {
+	children: React.ReactNode[];
 	orientation?: "horizontal" | "vertical";
 	slideDistance?: number;
 	gap?: number;
 	mode?: "linear" | "loop";
 }
 
-const Slider = <T,>({
-	items,
-	renderItem,
+const Slider = ({
+	children,
 	orientation = "horizontal",
-	slideDistance = 200,
+	slideDistance,
 	gap = 20,
-	mode = "linear",
-}: SliderProps<T>) => {
+}: SliderProps) => {
 	const sliderRef = useRef<HTMLDivElement>(null);
+	const [activeIndex, setActiveIndex] = useState(0);
 	const [canSlidePrev, setCanSlidePrev] = useState(false);
 	const [canSlideNext, setCanSlideNext] = useState(true);
 	const isHorizontal = orientation === "horizontal";
+	const slider = sliderRef.current;
 
 	const updateArrowStates = () => {
-		if (sliderRef.current) {
+		if (slider) {
 			const {
 				scrollLeft,
 				scrollTop,
@@ -33,7 +32,7 @@ const Slider = <T,>({
 				scrollHeight,
 				clientWidth,
 				clientHeight,
-			} = sliderRef.current;
+			} = slider;
 
 			if (isHorizontal) {
 				setCanSlidePrev(scrollLeft > 0);
@@ -45,51 +44,76 @@ const Slider = <T,>({
 		}
 	};
 
-	const handleNext = () => {
-		if (sliderRef.current) {
-			sliderRef.current.scrollBy({
-				[isHorizontal ? "left" : "top"]: slideDistance,
-				behavior: "smooth",
-			});
+	const scrollToIndex = (index: number) => {
+		if (slider) {
+			const container = slider;
+			const targetItem = container.children[index] as HTMLElement;
+
+			if (targetItem) {
+				targetItem.scrollIntoView({
+					behavior: "smooth",
+					block: isHorizontal ? "nearest" : "center",
+					inline: isHorizontal ? "center" : "nearest",
+				});
+			}
 		}
 	};
 
-	const handlePrev = () => {
-		if (sliderRef.current) {
-			sliderRef.current.scrollBy({
-				[isHorizontal ? "left" : "top"]: -slideDistance,
-				behavior: "smooth",
-			});
+	const handleScroll = (direction: "next" | "prev") => {
+		if (slider) {
+			const container = slider;
+
+			if (slideDistance) { // Pixel-based scrolling if slideDistance is provided
+				const scrollAmount = direction === "next" ? slideDistance : -slideDistance;
+				container.scrollBy({
+					[isHorizontal ? "left" : "top"]: scrollAmount,
+					behavior: "smooth",
+				});
+			} else { // Index-based scrolling (one item at a time)
+				const totalItems = children.length;
+
+				const newIndex =
+					direction === "next"
+						? Math.min(activeIndex + 1, totalItems - 1)
+						: Math.max(activeIndex - 1, 0);
+
+				if (newIndex !== activeIndex) {
+					scrollToIndex(newIndex);
+					setActiveIndex(newIndex);
+				}
+			}
 		}
 	};
 
 	useEffect(() => {
 		updateArrowStates();
-		const slider = sliderRef.current;
 
 		if (slider) {
 			slider.addEventListener("scroll", updateArrowStates);
-			return () => slider.removeEventListener("scroll", updateArrowStates);
 		}
-	}, [isHorizontal]);
+
+		return () => {
+			if (slider) {
+				slider.removeEventListener("scroll", updateArrowStates);
+			}
+		};
+	}, []);
 
 	return (
 		<SliderContainer orientation={orientation}>
 			<Arrow
 				direction="prev"
 				orientation={orientation}
-				onClick={handlePrev}
+				onClick={() => handleScroll("prev")}
 				disabled={!canSlidePrev}
 			/>
-			<SliderWrapper orientation={orientation} gap={gap} ref={sliderRef}>
-				{items.map((item, index) => (
-					<SliderItem key={index}>{renderItem(item, index)}</SliderItem>
-				))}
+			<SliderWrapper orientation={orientation} $gap={gap} ref={sliderRef}>
+				{children}
 			</SliderWrapper>
 			<Arrow
 				direction="next"
 				orientation={orientation}
-				onClick={handleNext}
+				onClick={() => handleScroll("next")}
 				disabled={!canSlideNext}
 			/>
 		</SliderContainer>

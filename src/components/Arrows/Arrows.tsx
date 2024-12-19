@@ -21,17 +21,17 @@ const Arrow: React.FC<ArrowProps> = ({
 			onClick={onClick}
 			disabled={disabled}
 		>
-      {
-        orientation === "horizontal"
+			{orientation === "horizontal"
 				? direction === "prev"
 					? "<"
 					: ">"
 				: direction === "prev"
-				  ? "^"
-          : "v"
-      }
+				? "^"
+				: "v"}
 		</ArrowButton>
 	);
 };
+
+Arrow.displayName = "Arrow";
 
 export default Arrow;

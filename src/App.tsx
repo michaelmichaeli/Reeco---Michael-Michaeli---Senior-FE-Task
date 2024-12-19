@@ -5,99 +5,76 @@ import Chip from "./components/Chip/Chip";
 
 import "./App.css";
 
-const products = [
-  { id: 1, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-	{ id: 2, name: "Orange", description: "Citrus fruit", image: "orange.png" },
-	{ id: 3, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 4, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 5, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-	{ id: 6, name: "Orange", description: "Citrus fruit", image: "orange.png" },
-	{ id: 7, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 8, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-	{ id: 9, name: "Orange", description: "Citrus fruit", image: "orange.png" },
-	{ id: 10, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 11, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-	{ id: 12, name: "Orange", description: "Citrus fruit", image: "orange.png" },
-	{ id: 13, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 14, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-	{ id: 15, name: "Orange", description: "Citrus fruit", image: "orange.png" },
-	{ id: 16, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 17, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-  { id: 18, name: "Orange", description: "Citrus fruit", image: "orange.png" },
-  { id: 19, name: "Apple", description: "Fresh red apples", image: "apple.png" },
-	{ id: 20, name: "Banana", description: "Ripe bananas", image: "banana.png" },
-];
+const products = Array.from({ length: 20 }, (_, i) => ({
+	id: i + 1,
+	name: ["Banana", "Orange", "Apple"][i % 3],
+	description: ["Ripe bananas", "Citrus fruit", "Fresh red apples"][i % 3],
+	image: ["banana.png", "orange.png", "apple.png"][i % 3],
+}));
 
-const categories = [
-	{ id: 1, name: "Fresh Produce" },
-	{ id: 2, name: "Pantry" },
-	{ id: 3, name: "Baking" },
-	{ id: 4, name: "Fresh Produce" },
-	{ id: 5, name: "Pantry" },
-	{ id: 6, name: "Baking" },
-	{ id: 7, name: "Fresh Produce" },
-	{ id: 8, name: "Pantry" },
-	{ id: 9, name: "Baking" },
-	{ id: 10, name: "Fresh Produce" },
-	{ id: 11, name: "Pantry" },
-	{ id: 12, name: "Baking" },
-	{ id: 13, name: "Fresh Produce" },
-	{ id: 14, name: "Pantry" },
-	{ id: 15, name: "Baking" },
-	{ id: 16, name: "Fresh Produce" },
-	{ id: 17, name: "Pantry" },
-	{ id: 18, name: "Baking" },
-	{ id: 19, name: "Fresh Produce" },
-	{ id: 20, name: "Pantry" },
-	{ id: 21, name: "Baking" },
-	{ id: 22, name: "Fresh Produce" },
-	{ id: 23, name: "Pantry" },
-	{ id: 24, name: "Baking" },
-	{ id: 25, name: "Fresh Produce" },
-	{ id: 26, name: "Pantry" },
-	{ id: 27, name: "Baking" },
-	{ id: 28, name: "Fresh Produce" },
-	{ id: 29, name: "Pantry" },
-	{ id: 30, name: "Baking" },
-];
+const categories = Array.from({ length: 30 }, (_, i) => ({
+	id: i + 1,
+	name: ["Fresh Produce", "Pantry", "Baking"][i % 3],
+}));
 
 const App: React.FC = () => {
 	return (
-		<>
-			<h1>Linear Card-Product Slider</h1>
-			<Slider
-				items={products}
-				renderItem={(item) => <ProductCard item={item} />}
-				orientation="horizontal"
-				slideDistance={1000}
-				gap={30}
-				mode="linear"
-			/>
+		<div className="App">
 
-			<h1>Linear Card-Product Slider - Limited Width</h1>
-			<div className="850px-width-container" style={{ width: "850px" }}>
+			<h1>My Slider Component</h1>
+
+			<section style={{ width: "100%" }}>
+				<h2>Horizontal Product Cards Slider (slides: 1000px)</h2>
 				<Slider
-					items={products}
-					renderItem={(item) => <ProductCard item={item} />}
 					orientation="horizontal"
-					slideDistance={250}
-					gap={20}
-					mode="linear"
-				/>
-			</div>
+					slideDistance={1000}
+					gap={30}
+				>
+					{products.map((product) => (
+						<ProductCard item={product} key={product.id} />
+					))}
+				</Slider>
+			</section>
 
-			<h1>Looping Vertical Chips Slider</h1>
-			<div className="450px-height-container" style={{ height: "450px" }}>
+			<section style={{ width: "100%" }}>
+				<h2>Horizontal Category Chips Slider (slides: 600px)</h2>
 				<Slider
-					items={categories}
-					renderItem={(item) => <Chip label={item.name} />}
+					orientation="horizontal"
+					slideDistance={600}
+					gap={5}
+				>
+					{categories.map((category) => (
+						<Chip label={category.name} key={category.id} />
+					))}
+				</Slider>
+			</section>
+
+			<section style={{ width: "450px" }}>
+				<h2>Product Cards Slider (slides: item)</h2>
+				<Slider
+					orientation="horizontal"
+					gap={20}
+				>
+					{products.map((product) => (
+						<ProductCard item={product} key={product.id} />
+					))}
+				</Slider>
+			</section>
+
+			<section style={{ height: "750px" }}>
+				<h2>Vertical Category Chips Slider</h2>
+				<Slider
 					orientation="vertical"
-					slideDistance={100}
+					slideDistance={500}
 					gap={15}
-					mode="linear"
-				/>
-			</div>
-		</>
+				>
+					{categories.map((category) => (
+						<Chip label={category.name} key={category.id} />
+					))}
+				</Slider>
+			</section>
+
+		</div>
 	);
 };
 
