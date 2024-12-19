@@ -27,7 +27,7 @@ const App: React.FC = () => {
 				<h2>Horizontal Product Cards Slider (slides: 1000px)</h2>
 				<Slider
 					orientation="horizontal"
-					slideDistance={1000}
+					translateInPixels={1000}
 					gap={30}
 				>
 					{products.map((product) => (
@@ -40,7 +40,7 @@ const App: React.FC = () => {
 				<h2>Horizontal Category Chips Slider (slides: 600px)</h2>
 				<Slider
 					orientation="horizontal"
-					slideDistance={600}
+					translateInPixels={600}
 					gap={5}
 				>
 					{categories.map((category) => (
@@ -65,7 +65,7 @@ const App: React.FC = () => {
 				<h2>Vertical Category Chips Slider</h2>
 				<Slider
 					orientation="vertical"
-					slideDistance={500}
+					translateInPixels={500}
 					gap={15}
 				>
 					{categories.map((category) => (

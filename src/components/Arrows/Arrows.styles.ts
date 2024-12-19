@@ -17,9 +17,9 @@ export const ArrowButton = styled.button<{
 			: props.direction === "prev"
 			? "top: 20px;"
 			: "bottom: 20px;"}
-	opacity: ${(props) => (props.disabled ? "0.1" : " 0.8")};
-	color: white;
-	background-color: rgba(255, 255, 255, 0.5);
+	opacity: ${(props) => (props.disabled ? "0.1" : " 1")};
+	color: rgb(240, 240, 240);
+	background-color: grey;
 	border: none;
 	border-radius: 50%;
 	cursor: ${(props) => (props.disabled ? "default" : "pointer")};
@@ -27,7 +27,7 @@ export const ArrowButton = styled.button<{
 	font-size: xxx-large;
 
 	&:hover {
-		opacity: ${(props) => (props.disabled ? "0.3" : "0.8")};
+		opacity: ${(props) => (props.disabled ? "0.3" : "1")};
 	}
 
 	&:active {

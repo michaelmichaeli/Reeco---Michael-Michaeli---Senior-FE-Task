@@ -5,7 +5,7 @@ import Arrow from "../Arrows/Arrows";
 interface SliderProps {
 	children: React.ReactNode[];
 	orientation?: "horizontal" | "vertical";
-	slideDistance?: number;
+	translateInPixels?: number;
 	gap?: number;
 	mode?: "linear" | "loop";
 }
@@ -13,13 +13,14 @@ interface SliderProps {
 const Slider = ({
 	children,
 	orientation = "horizontal",
-	slideDistance,
+	translateInPixels,
 	gap = 20,
 }: SliderProps) => {
 	const sliderRef = useRef<HTMLDivElement>(null);
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [canSlidePrev, setCanSlidePrev] = useState(false);
 	const [canSlideNext, setCanSlideNext] = useState(true);
+	
 	const isHorizontal = orientation === "horizontal";
 	const slider = sliderRef.current;
 
@@ -46,8 +47,7 @@ const Slider = ({
 
 	const scrollToIndex = (index: number) => {
 		if (slider) {
-			const container = slider;
-			const targetItem = container.children[index] as HTMLElement;
+			const targetItem = slider.children[index] as HTMLElement;
 
 			if (targetItem) {
 				targetItem.scrollIntoView({
@@ -61,11 +61,10 @@ const Slider = ({
 
 	const handleScroll = (direction: "next" | "prev") => {
 		if (slider) {
-			const container = slider;
 
-			if (slideDistance) { // Pixel-based scrolling if slideDistance is provided
-				const scrollAmount = direction === "next" ? slideDistance : -slideDistance;
-				container.scrollBy({
+			if (translateInPixels) { // Pixel-based scrolling if translateInPixels is provided
+				const scrollAmount = direction === "next" ? translateInPixels : -translateInPixels;
+				slider.scrollBy({
 					[isHorizontal ? "left" : "top"]: scrollAmount,
 					behavior: "smooth",
 				});

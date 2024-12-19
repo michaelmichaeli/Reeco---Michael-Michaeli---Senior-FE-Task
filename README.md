@@ -75,9 +75,8 @@ const App: React.FC = () => {
       items={products}
       renderItem={(item) => <ProductCard item={item} />}
       orientation="horizontal"
-      slideDistance={250}
+      translateInPixels={250}
       gap={30}
-      mode="loop"
     />
   );
 };
@@ -100,9 +99,8 @@ const categories = [
   items={categories}
   renderItem={(item) => <Chip label={item.name} />}
   orientation="vertical"
-  slideDistance={100}
+  translateInPixels={100}
   gap={15}
-  mode="linear"
 />;
 ```
 
