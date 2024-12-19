@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+	useRef,
+	useState,
+	useCallback,
+	useLayoutEffect,
+	useEffect,
+} from "react";
 import { SliderContainer, SliderWrapper } from "./Slider.styles";
 import Arrow from "../Arrows/Arrows";
 
@@ -20,12 +26,10 @@ const Slider = ({
 	const [activeIndex, setActiveIndex] = useState(0);
 	const [canSlidePrev, setCanSlidePrev] = useState(false);
 	const [canSlideNext, setCanSlideNext] = useState(true);
-	
 	const isHorizontal = orientation === "horizontal";
-	const slider = sliderRef.current;
 
 	const updateArrowStates = () => {
-		if (slider) {
+		if (sliderRef.current) {
 			const {
 				scrollLeft,
 				scrollTop,
@@ -33,7 +37,7 @@ const Slider = ({
 				scrollHeight,
 				clientWidth,
 				clientHeight,
-			} = slider;
+			} = sliderRef.current;
 
 			if (isHorizontal) {
 				setCanSlidePrev(scrollLeft > 0);
@@ -46,13 +50,12 @@ const Slider = ({
 	};
 
 	const scrollToIndex = (index: number) => {
-		if (slider) {
-			const targetItem = slider.children[index] as HTMLElement;
-
+		if (sliderRef.current) {
+			const targetItem = sliderRef.current.children[index] as HTMLElement;
 			if (targetItem) {
 				targetItem.scrollIntoView({
 					behavior: "smooth",
-					block: isHorizontal ? "nearest" : "center",
+					block: isHorizontal ? "nearest" : "start",
 					inline: isHorizontal ? "center" : "nearest",
 				});
 			}
@@ -60,15 +63,17 @@ const Slider = ({
 	};
 
 	const handleScroll = (direction: "next" | "prev") => {
-		if (slider) {
-
-			if (translateInPixels) { // Pixel-based scrolling if translateInPixels is provided
-				const scrollAmount = direction === "next" ? translateInPixels : -translateInPixels;
-				slider.scrollBy({
+		if (sliderRef.current) {
+			if (translateInPixels) {
+				// Pixel-based scrolling if translateInPixels is provided
+				const scrollAmount =
+					direction === "next" ? translateInPixels : -translateInPixels;
+				sliderRef.current.scrollBy({
 					[isHorizontal ? "left" : "top"]: scrollAmount,
 					behavior: "smooth",
 				});
-			} else { // Index-based scrolling (one item at a time)
+			} else {
+				// Index-based scrolling (one item at a time)
 				const totalItems = children.length;
 
 				const newIndex =
@@ -87,16 +92,16 @@ const Slider = ({
 	useEffect(() => {
 		updateArrowStates();
 
-		if (slider) {
-			slider.addEventListener("scroll", updateArrowStates);
+		if (sliderRef.current) {
+			sliderRef.current.addEventListener("scroll", updateArrowStates);
 		}
 
 		return () => {
-			if (slider) {
-				slider.removeEventListener("scroll", updateArrowStates);
+			if (sliderRef.current) {
+				sliderRef.current.removeEventListener("scroll", updateArrowStates);
 			}
 		};
-	}, []);
+	}, [updateArrowStates]);
 
 	return (
 		<SliderContainer orientation={orientation}>
